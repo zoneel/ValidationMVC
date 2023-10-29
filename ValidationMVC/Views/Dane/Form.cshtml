@@ -1,0 +1,60 @@
+@model ValidationMVC.Models.Dane
+<form asp-action="Form" method="post" id="registrationForm">
+    <div>
+        <label asp-for="Imie">Twoje imie</label>
+        <input asp-for="Imie" />
+        <span asp-validation-for="Imie"></span>
+    </div>
+    <div>
+        <label asp-for="Nazwisko">Twoje nazwisko</label>
+        <input asp-for="Nazwisko" />
+        <span asp-validation-for="Nazwisko"></span>
+    </div>
+    <div>
+        <label asp-for="Email">Twoj Email</label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Haslo">Password</label>
+        <input type="password" asp-for="Haslo" />
+        <span asp-validation-for="Haslo"></span>
+    </div>
+    <div>
+        <label asp-for="PotwierdzHaslo">Confirm Password</label>
+        <input type="password" asp-for="PotwierdzHaslo" />
+        <span asp-validation-for="PotwierdzHaslo"></span>
+    </div>
+    <div>
+        <label asp-for="NumerTelefonu">Numer telefonu</label>
+        <input asp-for="NumerTelefonu" />
+        <span asp-validation-for="NumerTelefonu"></span>
+    </div>
+    <div>
+        <label asp-for="Wiek">Wiek</label>
+        <input asp-for="Wiek" />
+        <span asp-validation-for="Wiek"></span>
+    </div>
+    <div>
+        <label asp-for="Miasto">Miasto</label>
+        <select asp-for="Miasto" asp-items="Html.GetEnumSelectList<ValidationMVC.Models.Miasto>()">
+            <option value="">Select a city</option>
+        </select>
+        <span asp-validation-for="Miasto"></span>
+    </div>
+    <div>
+        <input type="submit" value="Submit" />
+        <input type="button" value="Clear" id="clearButton" />
+    </div>
+    <div asp-validation-summary="All"></div>
+    <div id="successMessage" style="color: green; display: none;">Rejestracja zakończona pomyślnie.</div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $("#clearButton").click(function () {
+            $("#registrationForm")[0].reset();
+            $("#successMessage").hide();
+        });
+    });
+</script>

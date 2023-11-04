@@ -44,17 +44,92 @@
     </div>
     <div>
         <input type="submit" value="Submit" />
-        <input type="button" value="Clear" id="clearButton" />
+        <input type="reset" value="Clear" />
     </div>
     <div asp-validation-summary="All"></div>
     <div id="successMessage" style="color: green; display: none;">Rejestracja zakończona pomyślnie.</div>
 </form>
 
 <script>
-    $(document).ready(function () {
-        $("#clearButton").click(function () {
-            $("#registrationForm")[0].reset();
-            $("#successMessage").hide();
-        });
+    // Function to validate the form on submit
+    function validateForm() {
+        var valid = true;
+        var errorMessage = "";
+
+        // Validation for the "Imie" field
+        var imieField = document.querySelector("[name='Imie']");
+        var imieValue = imieField.value.trim();
+        if (imieValue.length < 2) {
+            errorMessage += "Imię musi zawierać co najmniej 2 znaki.\n";
+            valid = false;
+        }
+
+        // Validation for the "Nazwisko" field
+        var nazwiskoField = document.querySelector("[name='Nazwisko']");
+        var nazwiskoValue = nazwiskoField.value.trim();
+        if (nazwiskoValue.length < 2) {
+            errorMessage += "Nazwisko musi zawierać co najmniej 2 znaki.\n";
+            valid = false;
+        }
+
+        // Validation for the "Email" field
+        var emailField = document.querySelector("[name='Email']");
+        var emailValue = emailField.value.trim();
+
+
+        // Validation for the "Haslo" field
+        var hasloField = document.querySelector("[name='Haslo']");
+        var hasloValue = hasloField.value;
+        var hasloPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+        if (!hasloPattern.test(hasloValue)) {
+            errorMessage += "Hasło musi zawierać co najmniej 8 znaków, jedną cyfrę, jedną dużą literę i jedną małą literę.\n";
+            valid = false;
+        }
+
+        // Validation for "PotwierdzHaslo" to ensure it matches "Haslo"
+        var potwierdzHasloField = document.querySelector("[name='PotwierdzHaslo']");
+        var potwierdzHasloValue = potwierdzHasloField.value;
+        if (potwierdzHasloValue !== hasloValue) {
+            errorMessage += "Potwierdzenie hasła musi być takie samo jak pole hasło.\n";
+            valid = false;
+        }
+
+        // Validation for "NumerTelefonu" - Adjust the type validation as needed
+        var numerTelefonuField = document.querySelector("[name='NumerTelefonu']");
+        var numerTelefonuValue = numerTelefonuField.value;
+        // You can add custom validation for phone number type here if needed
+
+        // Validation for "Wiek"
+        var wiekField = document.querySelector("[name='Wiek']");
+        var wiekValue = parseInt(wiekField.value);
+        if (isNaN(wiekValue) || wiekValue < 11 || wiekValue > 80) {
+            errorMessage += "Wiek musi być od 11 do 80 lat.\n";
+            valid = false;
+        }
+
+        // Validation for "Miasto"
+        var miastoField = document.querySelector("[name='Miasto']");
+        var miastoValue = miastoField.value;
+        if (miastoValue === "") {
+            errorMessage += "Wybierz miasto z listy.\n";
+            valid = false;
+        }
+
+        // Display error message if any
+        if (!valid) {
+            alert(errorMessage);
+        }
+
+        return valid;
+    }
+
+    // Attach the validation function to the form's submit event
+    var form = document.getElementById("registrationForm");
+    form.addEventListener("submit", function (event) {
+        if (!validateForm()) {
+            event.preventDefault(); // Prevent form submission if validation fails
+        }
     });
 </script>
+
+
